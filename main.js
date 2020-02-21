@@ -105,3 +105,7 @@ app.whenReady().then(() => {
   Menu.setApplicationMenu(menu);
   mainWindow.loadFile("./public/index.html");
 });
+
+app.on("window-all-closed", () => {
+  app.quit();
+});
