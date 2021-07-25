@@ -1,7 +1,4 @@
 <script>
-  //Electron Imports
-  const { ipcRenderer } = require("electron");
-
   //Svelte Imports
   import Editor from "./Editor.svelte";
   import Preview from "./Preview.svelte";
@@ -11,23 +8,34 @@
   let activeFilePath;
 
   //When a new file is opened, update the state
-  ipcRenderer.on("fileopened", (e, { path, content }) => {
+  window.api.on("fileopened", (e, { path, content }) => {
     activeFilePath = path;
     markdown = content;
   });
 
   //When a file save is triggered, send the active file details to Electron
-  ipcRenderer.on("savefile", () => {
+  window.api.on("savefile", () => {
     if (activeFilePath) {
-      ipcRenderer.send("saveexistingfile", {
+      window.api.send("saveexistingfile", {
         path: activeFilePath,
-        content: markdown
+        content: markdown,
       });
     } else {
-      ipcRenderer.send("savenewfile", markdown);
+      window.api.send("savenewfile", markdown);
     }
   });
 </script>
+
+<main>
+  <p class="file-path">
+    {activeFilePath ? activeFilePath : "Press 'Save' or hit 'CTRL + S' to save"}
+  </p>
+
+  <div class="editor-and-preview">
+    <Editor bind:markdown />
+    <Preview {markdown} />
+  </div>
+</main>
 
 <style>
   main {
@@ -44,14 +52,3 @@
     flex-direction: row;
   }
 </style>
-
-<main>
-  <p class="file-path">
-    {activeFilePath ? activeFilePath : "Press 'Save' or hit 'CTRL + S' to save"}
-  </p>
-
-  <div class="editor-and-preview">
-    <Editor bind:markdown />
-    <Preview {markdown} />
-  </div>
-</main>

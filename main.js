@@ -6,6 +6,9 @@ const {
   ipcMain,
   dialog
 } = require("electron");
+
+const path = require("path");
+
 const fs = require("fs");
 
 app.whenReady().then(() => {
@@ -13,7 +16,9 @@ app.whenReady().then(() => {
     width: 800,
     height: 600,
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: false,
+      contextIsolation: true,
+      preload: path.join(__dirname, "preload.js")
     }
   });
 
