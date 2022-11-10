@@ -12,7 +12,7 @@
   "devDependencies": {
     "@rollup/plugin-commonjs": "^11.0.0",
     "@rollup/plugin-node-resolve": "^7.0.0",
-    "electron": "^13.1.7",
+    "electron": "^18.3.7",
     "electron-packager": "^14.2.1",
     "rollup": "^1.20.0",
     "rollup-plugin-livereload": "^1.0.0",
